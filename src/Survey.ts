@@ -32,12 +32,7 @@ export class Survey {
      * @return {SurveyQuestion | null} The current question
      */
     public getQuestion() : SurveyQuestion {
-        let val = this.questions[this.currentQuestion];
-        if (val !== undefined) {
-            return val;
-        } else {
-            throw ("No questions");
-        }
+
     }
 
     /*
@@ -69,7 +64,8 @@ export class Survey {
      * Adds a question to the back of questions list.
      *
      * @param {SurveyQuestion} The question to add
-     * /
+     */
+
     public addQuestion(sq: SurveyQuestion) {
         this.questions.push(sq);
     }
@@ -80,7 +76,7 @@ export class Survey {
      * @param {SurveyQuestion[]} sq a list of valid questions to add
      */
     public addManyQuestions(sq : SurveyQuestion[]) {
-        this.questions = this.questions.concat(sq);
+        this.questions.concat(sq);
     }
 
     /*
