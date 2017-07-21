@@ -1,4 +1,4 @@
-import {SurveyQuestion, MultipleChoiceQuestion, MultipleChoiceAnswer} from './ISurveyQuestion';
+import {MultipleChoiceAnswer, SurveyQuestion} from "./ISurveyQuestion";
 
 
 /**
@@ -30,14 +30,11 @@ export class Survey {
      * @return {SurveyQuestion} The current question
      */
     public getQuestion(): SurveyQuestion {
-        // return {num: 1, answer: null, question: 'foo'};
-        // return this.questions[this.currentQuestion];
-
         let val = this.questions[this.currentQuestion];
-        if (val !== undefined) {
-            return val;
-        } else {
+        if (typeof val === 'undefined') {
             throw new Error("No questions");
+        } else {
+            return val;
         }
     }
 
@@ -82,7 +79,6 @@ export class Survey {
      * @param {SurveyQuestion[]} sq a list of valid questions to add
      */
     public addManyQuestions(sq: SurveyQuestion[]) {
-        // this.questions.concat(sq);
         this.questions = this.questions.concat(sq)
     }
 
