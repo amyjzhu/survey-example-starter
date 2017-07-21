@@ -2,7 +2,8 @@
   "name": "application-name",
   "version": "0.0.1",
   "scripts": {
-    "test": "nyc --reporter=html mocha"
+    "test": "nyc --reporter=html mocha",
+    "cover": "istanbul cover _mocha"
   },
   "nyc": {
     "extension": [

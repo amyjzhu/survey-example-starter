@@ -4,12 +4,14 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "module": "commonjs",
-    "target": "es6",
-    "types":["node"]
+    "target": "ES6",
+    "types": [
+      "node"
+    ]
   },
   "include": [
-    "./src/**/*",
-    "./test/**/*"
+    "./src/**/*ts",
+    "./test/**/*ts"
   ],
   "exclude": [
   ],

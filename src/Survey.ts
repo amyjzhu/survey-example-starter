@@ -1,8 +1,7 @@
-
 import {SurveyQuestion, MultipleChoiceQuestion, MultipleChoiceAnswer} from './ISurveyQuestion';
 
 
-/*
+/**
  * @class Represents a survey runner for user.
  * Keeps track of user's position in survey
  * And all questions to be answered.
@@ -15,8 +14,7 @@ export class Survey {
     // the question currently available to answer
     private currentQuestion: number;
 
-
-    /*
+    /**
      * Initializes a survey with no questions, starting at index 0.
      */
     constructor() {
@@ -25,32 +23,33 @@ export class Survey {
     }
 
 
-    /*
+    /**
      * Returns the current question.
      * If currentQuestion does not exist, throws error.
      *
-     * @return {SurveyQuestion | null} The current question
+     * @return {SurveyQuestion} The current question
      */
-    public getQuestion() : SurveyQuestion {
-
+    public getQuestion(): SurveyQuestion {
+        // return {num: 1, answer: null, question: 'foo'};
+        return this.questions[this.currentQuestion];
     }
 
-    /*
+    /**
      * Returns the next question and increments the currentQuestion counter.
      * If no more questions in list, throws error.
      *
      * @return {SurveyQuestion} The next question
      */
-    public getNextQuestion() : SurveyQuestion {
+    public getNextQuestion(): SurveyQuestion {
         let val = this.questions[++this.currentQuestion];
         if (val !== undefined) {
             return val;
         } else {
-            throw ("No questions");
+            throw ("No next question");
         }
     }
 
-    /*
+    /**
      * Returns a list of all questions stored in Survey.
      * This list may be empty.
      *
@@ -60,7 +59,7 @@ export class Survey {
         return this.questions;
     }
 
-    /*
+    /**
      * Adds a question to the back of questions list.
      *
      * @param {SurveyQuestion} The question to add
@@ -70,16 +69,16 @@ export class Survey {
         this.questions.push(sq);
     }
 
-    /*
+    /**
      * Adds multiple questions to back of questions list.
      *
      * @param {SurveyQuestion[]} sq a list of valid questions to add
      */
-    public addManyQuestions(sq : SurveyQuestion[]) {
+    public addManyQuestions(sq: SurveyQuestion[]) {
         this.questions.concat(sq);
     }
 
-    /*
+    /**
      * Sets the answer of the current question to ans param.
      * If question is MultipleChoiceQuestion but answer is not a MultipleChoiceAnswer
      * or question is null, throw error and do not change answer.
@@ -87,7 +86,7 @@ export class Survey {
      * @param {any} ans The answer given by user input
      */
     public answerQuestion(ans: any) {
-        let curq : SurveyQuestion = this.questions[this.currentQuestion];
+        let curq: SurveyQuestion = this.questions[this.currentQuestion];
 
         if (curq) {
             if ("rightanswer" in curq && !(ans in MultipleChoiceAnswer)) {
@@ -97,42 +96,43 @@ export class Survey {
         }
     }
 
-    /*
+    /**
      * Returns in string format the contents of a .txt file at param fileName
      * If no such file found, raise error.
      *
      * @param {string} fileName The path to the file
      * @return {Promise<string|Error>} The contents of the file as a Promise or error if rejected
      */
-    public getFileInformation(fileName : string) : Promise<String> {
+    public getFileInformation(fileName: string): Promise<String> {
         let fs = require('fs');
         return new Promise((fulfill, reject) => {
-            fs.readFile(fileName, 'utf8', (err : any, result : any) => {
-                if (err) { reject(err); }
+            fs.readFile(fileName, 'utf8', (err: any, result: any) => {
+                if (err) {
+                    reject(err);
+                }
                 fulfill(result);
             })
         });
     }
 
-    /*
+    /**
      * Set the questions list to one loaded from a file.
      * File must contain validly-formatted JSON.
      *
      * @param {string} fileName The path to the file
      * @return {Promise<any|err> The parsed JSON object or error if rejected
      */
-    public loadQuestionsFromFile(fileName : string) : Promise<any> {
+    public loadQuestionsFromFile(fileName: string): Promise<any> {
         let that = this; // fat arrows do not create a new this context
         return new Promise((fulfill, reject) => {
-            that.getFileInformation(fileName).then((data : string) => {
+            that.getFileInformation(fileName).then((data: string) => {
                 let parsed = JSON.parse(data);
                 that.questions = parsed;
                 fulfill(parsed);
-            }).catch((err : any) => {
+            }).catch((err: any) => {
                 console.log(err);
                 reject(err);
             })
         })
     }
-
 }
