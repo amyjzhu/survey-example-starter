@@ -25,7 +25,7 @@ export class Survey {
 
     /**
      * Returns the current question.
-     * If currentQuestion does not exist, throws error.
+     * If currentQuestion does not exist, throws an error.
      *
      * @return {SurveyQuestion} The current question
      */
@@ -43,7 +43,7 @@ export class Survey {
 
     /**
      * Returns the next question and increments the currentQuestion counter.
-     * If no more questions in list, throws error.
+     * If no more questions in list, throws an error.
      *
      * @return {SurveyQuestion} The next question
      */
@@ -88,7 +88,7 @@ export class Survey {
     /**
      * Sets the answer of the current question to ans param.
      * If question is MultipleChoiceQuestion but answer is not a MultipleChoiceAnswer
-     * or question is null, throw error and do not change answer.
+     * or question is null, throw an error and do not change answer.
      *
      * @param {any} ans The answer given by user input
      */
@@ -105,10 +105,10 @@ export class Survey {
 
     /**
      * Returns in string format the contents of a .txt file at param fileName
-     * If no such file found, raise error.
+     * If no such file found, reject the promise.
      *
      * @param {string} fileName The path to the file
-     * @return {Promise<string|Error>} The contents of the file as a Promise or error if rejected
+     * @return {Promise<string>} The contents of the file.
      */
     public getFileInformation(fileName: string): Promise<String> {
         let fs = require('fs');
@@ -116,9 +116,10 @@ export class Survey {
             fs.readFile(fileName, 'utf8', (err: any, result: any) => {
                 if (err) {
                     reject(err);
+                } else {
+                    fulfill(result);
                 }
-                fulfill(result);
-            })
+            });
         });
     }
 
@@ -127,7 +128,7 @@ export class Survey {
      * File must contain validly-formatted JSON.
      *
      * @param {string} fileName The path to the file
-     * @return {Promise<any|err> The parsed JSON object or error if rejected
+     * @return {Promise<any> The parsed JSON object.
      */
     public loadQuestionsFromFile(fileName: string): Promise<any> {
         let that = this; // fat arrows do not create a new this context
@@ -137,9 +138,8 @@ export class Survey {
                 that.questions = parsed;
                 fulfill(parsed);
             }).catch((err: any) => {
-                console.log(err);
                 reject(err);
-            })
-        })
+            });
+        });
     }
 }
