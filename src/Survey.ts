@@ -82,7 +82,8 @@ export class Survey {
      * @param {SurveyQuestion[]} sq a list of valid questions to add
      */
     public addManyQuestions(sq: SurveyQuestion[]) {
-        this.questions.concat(sq);
+        // this.questions.concat(sq);
+        this.questions = this.questions.concat(sq)
     }
 
     /**
