@@ -31,7 +31,14 @@ export class Survey {
      */
     public getQuestion(): SurveyQuestion {
         // return {num: 1, answer: null, question: 'foo'};
-        return this.questions[this.currentQuestion];
+        // return this.questions[this.currentQuestion];
+
+        let val = this.questions[this.currentQuestion];
+        if (val !== undefined) {
+            return val;
+        } else {
+            throw new Error("No questions");
+        }
     }
 
     /**
@@ -45,7 +52,7 @@ export class Survey {
         if (val !== undefined) {
             return val;
         } else {
-            throw ("No next question");
+            throw new Error("No next question");
         }
     }
 
@@ -90,7 +97,7 @@ export class Survey {
 
         if (curq) {
             if ("rightanswer" in curq && !(ans in MultipleChoiceAnswer)) {
-                throw ("This is a multiple choice question");
+                throw new Error("This is a multiple choice question");
             }
             curq.answer = ans;
         }
